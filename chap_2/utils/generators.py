@@ -36,7 +36,7 @@ LENGTH_DISTRIBUTION = {
 class StudentGenerator:
     @staticmethod
     def generate_student_id():
-        return "PKA-" + str(uuid.uuid4())[:ID_LENGTH]
+        return "PKA-" + str(uuid.uuid4())[:ID_LENGTH].upper()
 
     @staticmethod
     def generate_name_and_gender():
