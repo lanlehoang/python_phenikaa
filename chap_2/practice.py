@@ -1,6 +1,7 @@
 from utils.generators import StudentGenerator
 from utils.vi_dict_sorter import get_vi_name_key
 from typing import List, Optional, Callable
+import pandas as pd
 
 
 class Student:
@@ -74,10 +75,52 @@ class StudentManager:
 
     @classmethod
     def from_file(cls, filename):
-        pass
+        # Read from xlsx file only
+        if not filename.endswith(".xlsx"):
+            raise ValueError("Filename must end with .xlsx")
+        df = pd.read_excel(filename)
+        students = []
+        for _, row in df.iterrows():
+            students.append(
+                Student(
+                    row['ID'],
+                    row['Name'],
+                    row['Gender'],
+                    row['Home'],
+                    row['Math'],
+                    row['Algo'],
+                    row['Prog'],
+                    row['Avg']
+                )
+            )
+        # Clean up the memory
+        del df
+        return cls(students)
 
     def to_file(self, filename):
-        pass
+        # Write to xlsx file (csv messes up Vietnamese names)
+        if not filename.endswith(".xlsx"):
+            raise ValueError("Filename must end with .xlsx")
+        student_data = [
+            {
+                "ID": student.student_id,
+                "Name": student.get_standardized_name(),
+                "Gender": student.gender,
+                "Home": student.home,
+                "Math": student.math,
+                "Algo": student.algo,
+                "Prog": student.prog,
+                "Avg": student.avg
+            } for student in self.students
+        ]
+        df = pd.DataFrame(student_data)
+        df.to_excel(filename, index=False)
+        print(f"Data saved to {filename}")
+        # Clean up the memory
+        del df, student_data
+        
+    def add_student(self, student: Student):
+        self.students.append(student)
 
     def print_list(self, name_getter: Callable[[Student], str]):
         print(
