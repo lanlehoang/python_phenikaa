@@ -15,8 +15,8 @@ SURNAMES = [
 FEMALE_NAMES = [
     "Khánh Linh", "Bảo Ngọc", "Thùy Trang", "Thu Hương", "Hồng Nhung", "Tường Vy",
     "Ngọc Anh", "Thanh Hà", "Minh Châu", "Mai Phương", "Anh Thư", "Phương Nhi",
-    "Tú Uyên", "Lan Chi", "Hoài An", "Ngọc Mai", "Hạ Vy", "Quỳnh Như",
-    "Thu Giang", "Kim Ngân", "Bích Phượng", "Diệp Anh", "Hải Yến", "Hà My",
+    "Tú Uyên", "Lan Chi", "Ngọc Ánh", "Ngọc Mai", "Hạ Vy", "Quỳnh Như",
+    "Thu Giang", "Kim Ngân", "Thùy Dung", "Diệp Anh", "Hải Yến", "Hà My",
     "Bảo Linh", "Hà Phương", "Minh Trang", "Thùy Linh", "Minh Ngọc", "Thúy Nga"
 ]
 MALE_NAMES = [
@@ -24,7 +24,7 @@ MALE_NAMES = [
     "Thành Đạt", "Nhật Minh", "Trung Hiếu", "Quốc Đạt", "Đức Anh", "Thành Công",
     "Khánh Duy", "Hải Đăng", "Ngọc Hưng", "Nam Khánh", "Đăng Khoa", "Quang Huy",
     "Tuấn Anh", "Đình Quân", "Chí Công", "Thái Sơn", "Gia Hưng", "Hoàng Lân",
-    "Mạnh Dũng", "Hải Dương", "Hùng Mạnh", "Hoàng Việt", "Hoàng Phú", "Khánh Nam"
+    "Mạnh Dũng", "Hải Dương", "Hùng Mạnh", "Hoàng Việt", "Hoàng Phú", "Tiến Nam"
 ]
 LENGTH_DISTRIBUTION = {
     2: 0.1,

@@ -123,6 +123,7 @@ class StudentManager:
         self.students.append(student)
 
     def print_list(self, name_getter: Callable[[Student], str]):
+        print("-"*90)
         print(
             f"{'ID':<14} {'Name':<30} {'Gender':<6} {'Home':<15} "
             f"{'Math':<5} {'Algo':<5} {'Prog':<5} {'Avg':<5}"
