@@ -8,12 +8,15 @@ CHARACTER_ORDER = [
 ]
 ACCENTS = ['', '̀', '́', '̉', '̃', '̣']
 
+
 def get_vi_name_key(name):
     return get_vi_key(westernize_and_lower(name))
+
 
 def westernize_and_lower(name):
     words = [word.lower() for word in name.split()]
     return words[-1] + " " + " ".join(words[:-1])
+
 
 def get_vi_key(s):
     s = unicodedata.normalize('NFD', s.lower())
