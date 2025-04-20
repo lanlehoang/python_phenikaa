@@ -31,33 +31,40 @@ def westernize_and_lower(name):
 def get_vi_key(s):
     s = unicodedata.normalize('NFD', s.lower())
     result = []
-    # Iterate over each character
-    i = 0
-    while i < len(s):
-        # Skip if it's a standalone diacritic
-        if unicodedata.category(s[i]) == 'Mn':
+    
+    # Process each word
+    for word in s.split():
+        # Track the tone for this word
+        word_tone = 0  # Default: no tone
+        word_chars = []
+        
+        # Process each character
+        i = 0
+        while i < len(word):
+            # Skip standalone accent marks
+            if unicodedata.category(word[i]) == 'Mn':
+                # If it's a tone mark, record it for the word
+                if word[i] in ACCENTS:
+                    word_tone = ACCENTS.index(word[i])
+                i += 1
+                continue
+            
+            # Process base character
+            base = word[i]
             i += 1
-            continue
-        # Get the base character
-        base = s[i]
-        i += 1
-        # Check if the next characters are a diacritic and a tone
-        char_diacritic = None
-        tone = None
-        if i < len(s) and unicodedata.category(s[i]) == 'Mn':
-            # Check diacritic
-            if s[i] not in ACCENTS:
-                char_diacritic = s[i]
+            
+            # Check for character-forming diacritic
+            if i < len(word) and unicodedata.category(word[i]) == 'Mn' and word[i] not in ACCENTS:
+                if (base, word[i]) in DIACRITIC_MAP:
+                    base = DIACRITIC_MAP[(base, word[i])]
                 i += 1
-            # Check tone (regardless of whether the diacritic exists or not)
-            if i < len(s) and unicodedata.category(s[i]) == 'Mn':
-                tone = s[i]
-                i += 1
-        if char_diacritic and (base, char_diacritic) in DIACRITIC_MAP:
-            base = DIACRITIC_MAP[(base, char_diacritic)]
-
-        result.append((
-            CHARACTER_ORDER.index(base) if base in CHARACTER_ORDER else 100,
-            ACCENTS.index(tone) if tone in ACCENTS else 0,
-        ))
+            
+            # Add character to this word's key
+            word_chars.append(CHARACTER_ORDER.index(base) if base in CHARACTER_ORDER else 100)
+        
+        # Add word characters to result
+        result.extend(word_chars)
+        # Add tone at the end of word
+        result.append(word_tone)
+    
     return result
