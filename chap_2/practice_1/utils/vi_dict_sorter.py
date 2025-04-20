@@ -29,26 +29,28 @@ def westernize_and_lower(name):
 
 
 def get_vi_key(s):
-    s = unicodedata.normalize('NFD', s.lower())
+    normalized = unicodedata.normalize('NFD', s.lower())
     result = []
     
-    # Process each word
-    for word in s.split():
-        # Track the tone for this word
+    # Process each word separately
+    for word in normalized.split():
+        word_result = []
         word_tone = 0  # Default: no tone
-        word_chars = []
         
-        # Process each character
+        # First pass: extract tone if present
+        for c in word:
+            if unicodedata.category(c) == 'Mn' and c in ACCENTS:
+                word_tone = ACCENTS.index(c)
+                break
+        
+        # Second pass: process characters properly
         i = 0
         while i < len(word):
-            # Skip standalone accent marks
+            # Skip standalone diacritics
             if unicodedata.category(word[i]) == 'Mn':
-                # If it's a tone mark, record it for the word
-                if word[i] in ACCENTS:
-                    word_tone = ACCENTS.index(word[i])
                 i += 1
                 continue
-            
+                
             # Process base character
             base = word[i]
             i += 1
@@ -59,12 +61,11 @@ def get_vi_key(s):
                     base = DIACRITIC_MAP[(base, word[i])]
                 i += 1
             
-            # Add character to this word's key
-            word_chars.append(CHARACTER_ORDER.index(base) if base in CHARACTER_ORDER else 100)
+            # Add character to word result
+            char_index = CHARACTER_ORDER.index(base) if base in CHARACTER_ORDER else 100
+            word_result.append(char_index)
         
-        # Add word characters to result
-        result.extend(word_chars)
-        # Add tone at the end of word
-        result.append(word_tone)
+        # Add word result with tone at a different level
+        result.append((word_result, word_tone))
     
     return result
