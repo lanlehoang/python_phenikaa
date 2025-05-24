@@ -4,3 +4,6 @@
 
 # Result log files
 **/*.log
+
+# Copilot
+.vscode
